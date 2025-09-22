@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ site_name }} - Your Personal Urban Garden Assistant{% endblock %}
+
+{% block main_class %}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-success text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-seedling me-3"></i>ZFarming
+                </h1>
+                <p class="lead mb-4">Your Personal Urban Garden Assistant</p>
+                <p class="mb-4">
+                    Making urban gardening accessible and enjoyable for everyone. Whether you're a complete beginner 
+                    or have some gardening experience, our tools will help you grow with confidence.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'scanner:scan' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-camera me-2"></i>Identify a Plant
+                    </a>
+                    <a href="{% url 'finder:find' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-search me-2"></i>Find My Plant
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop" 
+                     alt="Urban Garden" class="img-fluid rounded shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-success mb-3">What ZFarming Can Do For You</h2>
+            <p class="lead text-muted">Discover our powerful tools designed to make your gardening journey successful</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-camera fa-3x text-success"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Plant Scanner</h3>
+                        <p class="card-text mb-4">
+                            <strong>Identify any plant instantly!</strong><br>
+                            Take a photo or upload an image of any plant leaf, and we'll tell you what it is with confidence scores.
+                        </p>
+                        <a href="{% url 'scanner:scan' %}" class="btn btn-success">
+                            <i class="fas fa-camera me-2"></i>Try Scanner
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-search fa-3x text-success"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Perfect Plant Finder</h3>
+                        <p class="card-text mb-4">
+                            <strong>Find your ideal plant match!</strong><br>
+                            Answer a few questions about your space and lifestyle, and we'll recommend the perfect plants for you.
+                        </p>
+                        <a href="{% url 'finder:find' %}" class="btn btn-success">
+                            <i class="fas fa-search me-2"></i>Find Plants
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-book fa-3x text-success"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Plant Care Hub</h3>
+                        <p class="card-text mb-4">
+                            <strong>Expert care guides!</strong><br>
+                            Get detailed, easy-to-follow care instructions for all your plants, from watering to troubleshooting.
+                        </p>
+                        <a href="{% url 'care:hub' %}" class="btn btn-success">
+                            <i class="fas fa-book me-2"></i>Browse Guides
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Plants Section -->
+{% if featured_plants %}
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-success mb-3">Perfect for Beginners</h2>
+            <p class="lead text-muted">Start your gardening journey with these easy-care plants</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for plant in featured_plants %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <img src="{{ plant.primary_image }}" class="card-img-top" alt="{{ plant.name }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ plant.name }}</h5>
+                        <p class="card-text text-muted small mb-2">{{ plant.scientific_name }}</p>
+                        <p class="card-text">{{ plant.tagline }}</p>
+                        
+                        <div class="row text-center small text-muted mb-3">
+                            <div class="col-4">
+                                <i class="fas fa-sun text-warning"></i><br>
+                                {{ plant.sunlight_display }}
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-tint text-info"></i><br>
+                                {{ plant.watering_frequency }}
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-home text-secondary"></i><br>
+                                {{ plant.space_display }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{{ plant.get_absolute_url }}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-info-circle me-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'plants:list' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-leaf me-2"></i>View All Plants
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold text-success mb-4">About ZFarming</h2>
+                <p class="lead mb-4">
+                    ZFarming is designed to make urban gardening accessible and enjoyable for everyone. 
+                    Whether you're a complete beginner or have some gardening experience, our tools will help you:
+                </p>
+                
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <strong>Identify plants</strong> you find in your neighborhood or garden
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <strong>Discover the perfect plants</strong> for your specific living space
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <strong>Learn proper care techniques</strong> with detailed, easy-to-follow guides
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <strong>Build confidence</strong> in your gardening abilities
+                    </li>
+                </ul>
+                
+                <p class="text-muted">
+                    Our database includes 15+ urban-friendly plants, from easy-care succulents to fresh herbs 
+                    and vegetables you can grow right in your home.
+                </p>
+                
+                <a href="{% url 'core:about' %}" class="btn btn-outline-success">
+                    <i class="fas fa-info-circle me-2"></i>Learn More About Us
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <img src="https://images.unsplash.com/photo-1593482892262-124d95ad4a0a?w=300&h=200&fit=crop" 
+                             alt="Indoor Plants" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-6">
+                        <img src="https://images.unsplash.com/photo-1615485925334-744b5b3b6b0c?w=300&h=200&fit=crop" 
+                             alt="Herb Garden" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-6">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0c29c8a0c8a?w=300&h=200&fit=crop" 
+                             alt="Plant Care" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-6">
+                        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300&h=200&fit=crop" 
+                             alt="Urban Garden" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-success text-white py-5">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-3">Ready to Start Your Garden?</h2>
+        <p class="lead mb-4">Choose your adventure and begin your urban gardening journey!</p>
+        
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-4">
+                <a href="{% url 'scanner:scan' %}" class="btn btn-light btn-lg w-100">
+                    <i class="fas fa-camera me-2"></i>Identify a Plant
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'finder:find' %}" class="btn btn-outline-light btn-lg w-100">
+                    <i class="fas fa-search me-2"></i>Find My Plant
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'care:hub' %}" class="btn btn-outline-light btn-lg w-100">
+                    <i class="fas fa-book me-2"></i>Browse Guides
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #2E8B57 0%, #32CD32 100%);
+}
+
+.hover-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+{% endblock %}
