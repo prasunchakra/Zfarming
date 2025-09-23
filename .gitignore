@@ -128,8 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Streamlit
-.streamlit/secrets.toml
+# Django specific
+staticfiles/
+media/
+logs/
+*.sqlite3
+migrations/__pycache__/
 
 # IDE
 .vscode/

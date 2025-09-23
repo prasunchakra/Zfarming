@@ -41,7 +41,7 @@ def create_categories():
 def migrate_plant_data():
     """Migrate plant data from CSV to Django models."""
     # Path to the original CSV file
-    csv_path = BASE_DIR.parent / 'data' / 'plants.csv'
+    csv_path = BASE_DIR / 'data' / 'plants.csv'
     
     if not csv_path.exists():
         print(f"CSV file not found at {csv_path}")

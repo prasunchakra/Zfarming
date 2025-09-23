@@ -1,162 +1,281 @@
-# 🌱 Zfarming - Urban Garden Helper
+# 🌱 ZFarming - Urban Garden Assistant
 
-A proof-of-concept (POC) web application built with Streamlit to help urban residents start their own small-scale gardens. This interactive tool provides plant identification, personalized plant recommendations, and comprehensive care guides.
+A production-grade Django web application that helps urban residents start their own small-scale gardens with plant identification, personalized recommendations, and comprehensive care guides.
 
 ## ✨ Features
 
-### 📸 Plant Scanner
-- **Camera Integration**: Take photos or upload images of plant leaves
-- **AI-Powered Identification**: Identify plants using advanced plant recognition
-- **Confidence Scores**: Get detailed results with confidence ratings
-- **Quick Access**: Direct links to care guides for identified plants
+### 🎯 Core Functionality
+- **Plant Scanner**: AI-powered plant identification using camera or image upload
+- **Perfect Plant Finder**: Personalized plant recommendations based on user preferences
+- **Plant Care Hub**: Comprehensive care guides with detailed instructions
+- **User Accounts**: Profile management, plant collections, and history tracking
+- **Admin Interface**: Complete plant database management
 
-### 🪴 Perfect Plant Finder
-- **Personalized Recommendations**: Find plants based on your space and lifestyle
-- **Interactive Form**: Answer questions about sunlight, space, and care level
-- **Visual Results**: Browse recommended plants in an attractive card layout
-- **Smart Filtering**: Get plants that match your exact preferences
+### 🚀 Production Features
+- **Security**: HTTPS, CSRF protection, secure headers, and input validation
+- **Performance**: Database optimization, caching, static file compression
+- **Scalability**: Docker containerization, database migrations, CI/CD ready
+- **Monitoring**: Comprehensive logging and error tracking
+- **Mobile-First**: Responsive design optimized for all devices
 
-### 📖 Plant Care Hub
-- **Comprehensive Guides**: Detailed care instructions for 15+ starter plants
-- **Quick Stats**: At-a-glance information about sunlight, watering, and pot size
-- **Expandable Sections**: Organized information in collapsible sections
-- **Troubleshooting**: Common issues and solutions for each plant
+## 🛠️ Technology Stack
 
-## 🚀 Getting Started
+- **Backend**: Django 4.2, Python 3.11
+- **Database**: PostgreSQL (production), SQLite (development)
+- **Frontend**: Bootstrap 5, vanilla JavaScript, responsive design
+- **APIs**: Plant.id integration for plant identification
+- **Deployment**: Docker, Gunicorn, Nginx
+- **Storage**: Local files (development), AWS S3 (production)
+- **Caching**: Redis for session storage and caching
 
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package installer)
+## 📋 Prerequisites
 
-### Installation
+- Python 3.11+
+- PostgreSQL (for production)
+- Redis (for production caching)
+- Docker & Docker Compose (optional)
 
-1. **Clone the repository**
+## 🚀 Quick Start
+
+### Development Setup
+
+1. **Clone and Setup**
    ```bash
-   git clone <repository-url>
-   cd Zfarming
-   ```
-
-2. **Create a virtual environment**
-   ```bash
-   python3 -m venv venv
+   python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
    pip install -r requirements.txt
    ```
 
-4. **Run the application**
+2. **Environment Configuration**
    ```bash
-   streamlit run app.py
+   cp env_example.txt .env
+   # Edit .env with your configuration
    ```
 
-5. **Open your browser**
-   Navigate to `http://localhost:8501` to view the application.
+3. **Database Setup**
+   ```bash
+   python manage.py migrate
+   python manage.py createsuperuser
+   python manage.py collectstatic
+   ```
 
-## 📁 Project Structure
+4. **Load Initial Data**
+   ```bash
+   python data_migration.py
+   ```
 
+5. **Run Development Server**
+   ```bash
+   python manage.py runserver
+   ```
+
+Visit `http://localhost:8000` to access the application.
+
+### Docker Setup
+
+1. **Using Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+2. **Initialize Database**
+   ```bash
+   docker-compose exec web python manage.py migrate
+   docker-compose exec web python manage.py createsuperuser
+   docker-compose exec web python data_migration.py
+   ```
+
+## 📊 Database Schema
+
+### Core Models
+- **Plant**: Complete plant information and care details
+- **PlantCategory**: Categorization (Herbs, Flowers, Vegetables, etc.)
+- **PlantCareGuide**: Extended care instructions and calendars
+- **User**: Custom user model with gardening preferences
+- **UserPlantCollection**: Track user's plants and their status
+- **PlantIdentificationHistory**: Store identification attempts and results
+
+### Key Features
+- **Optimized Queries**: Database indexes on frequently searched fields
+- **Data Integrity**: Foreign key constraints and validation
+- **Audit Trail**: Created/updated timestamps on all models
+- **Flexible Storage**: Support for both local and cloud image storage
+
+## 🔧 Configuration
+
+### Environment Variables
+
+```bash
+# Core Django Settings
+DEBUG=False
+SECRET_KEY=your-secret-key-here
+ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
+
+# Database
+DATABASE_URL=postgres://user:password@localhost:5432/zfarming
+
+# External APIs
+PLANT_ID_API_KEY=your-plant-id-api-key
+
+# Email (Production)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_HOST_USER=your-email@domain.com
+EMAIL_HOST_PASSWORD=your-password
+
+# Redis Caching
+REDIS_URL=redis://localhost:6379/0
+
+# AWS S3 (Production)
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_STORAGE_BUCKET_NAME=your-bucket-name
 ```
-Zfarming/
-├── app.py                          # Main application entry point
-├── requirements.txt                # Python dependencies
-├── README.md                      # Project documentation
-├── .streamlit/
-│   └── config.toml                # Streamlit configuration
-├── pages/                         # Multi-page application modules
-│   ├── __init__.py
-│   ├── plant_scanner.py          # Plant identification module
-│   ├── plant_finder.py           # Plant recommendation module
-│   └── plant_care_hub.py         # Plant care guides module
-└── data/
-    └── plants.csv                 # Plant database with care information
-```
 
-## 🌿 Plant Database
+### Plant.id API Setup
 
-The application includes a comprehensive database of 15+ urban-friendly plants:
+1. Sign up at [Plant.id](https://web.plant.id/)
+2. Get your API key
+3. Add to environment variables: `PLANT_ID_API_KEY=your-key`
 
-- **Herbs**: Mint, Basil, Parsley, Cilantro, Rosemary, Lavender
-- **Flowers**: Marigold, Peace Lily
-- **Vegetables**: Cherry Tomatoes, Chilli, Lettuce
-- **Succulents**: Snake Plant, Aloe Vera
-- **Air Purifying**: Snake Plant, Spider Plant, Peace Lily
+## 📱 Key Features
 
-Each plant entry includes:
-- Scientific and common names
-- Sunlight requirements
-- Space needs
-- Care difficulty level
-- Watering frequency
-- Detailed care instructions
-- Common issues and solutions
+### 🔍 Plant Scanner
+- Real-time plant identification using Plant.id API
+- Confidence scoring and multiple suggestions
+- Integration with plant database for care information
+- Image upload with preview and validation
+- History tracking for authenticated users
 
-## 🔧 API Integration
+### 🎯 Plant Finder
+- Interactive questionnaire for preferences
+- Smart filtering based on sunlight, space, and care level
+- Personalized recommendations with visual cards
+- Integration with user profiles and collections
 
-### Plant Identification
-The app is designed to integrate with plant identification APIs:
+### 📚 Care Hub
+- Comprehensive plant care guides
+- Monthly care calendars
+- Troubleshooting guides
+- Expert tips and common mistakes
+- Printable care instructions
 
-- **Plant.id**: Primary recommendation (free tier available)
-- **Pl@ntNet**: Alternative option
-- **Custom API**: Easy to integrate with other services
+### 👤 User Management
+- Custom user model with gardening preferences
+- Plant collection tracking (want to grow, currently growing, etc.)
+- Identification history with user feedback
+- Profile management and preferences
 
-**Note**: For the POC, the app uses simulated results. To enable real plant identification:
+## 🔒 Security Features
 
-1. Sign up for a Plant.id API key
-2. Update the `call_plant_id_api()` function in `plant_scanner.py`
-3. Add your API key to environment variables
+- **HTTPS Enforcement**: Secure communication in production
+- **CSRF Protection**: All forms protected against CSRF attacks
+- **Input Validation**: Server-side validation for all user inputs
+- **SQL Injection Prevention**: Django ORM prevents SQL injection
+- **XSS Protection**: Template auto-escaping and secure headers
+- **File Upload Security**: Image validation and secure storage
+- **Rate Limiting**: API rate limiting for external requests
 
-## 🎨 Design Features
+## 🎨 Design System
 
-- **Responsive Layout**: Works on desktop, tablet, and mobile devices
-- **Modern UI**: Clean, intuitive interface with plant-themed colors
-- **Interactive Elements**: Engaging forms, buttons, and navigation
-- **Visual Feedback**: Progress bars, success messages, and helpful tips
-- **Accessibility**: Clear typography and color contrast
-
-## 🛠️ Customization
-
-### Adding New Plants
-1. Edit `data/plants.csv` to add new plant entries
-2. Include all required columns: name, scientific_name, sunlight, space, care_level, etc.
-3. Add high-quality images (URLs) for best visual appeal
-
-### Modifying Plant Care Information
-- Update the CSV file with new care instructions
-- Modify the display logic in `plant_care_hub.py` if needed
-- Add new care categories by updating the expandable sections
-
-### Styling Changes
-- Modify CSS in `app.py` for global styling
-- Update `.streamlit/config.toml` for theme customization
-- Customize individual page layouts in respective module files
-
-## 📱 Mobile Optimization
-
-The application is fully responsive and optimized for mobile devices:
+### Responsive Design
+- Mobile-first approach with Bootstrap 5
 - Touch-friendly interface elements
-- Optimized image sizes for mobile viewing
-- Responsive grid layouts
-- Mobile-friendly navigation
+- Optimized images and fast loading
+- Accessible color contrast and typography
 
-## 🔮 Future Enhancements
+### User Experience
+- Intuitive navigation with clear visual hierarchy
+- Progressive enhancement with JavaScript
+- Loading states and user feedback
+- Error handling with helpful messages
 
-- **Real API Integration**: Connect to actual plant identification services
-- **User Accounts**: Save favorite plants and care schedules
-- **Plant Care Reminders**: Push notifications for watering schedules
-- **Community Features**: Share plant photos and tips
-- **Advanced Filtering**: More sophisticated plant recommendation algorithms
-- **Plant Health Monitoring**: Track plant growth and health over time
+## 🚀 Deployment
+
+### Production Checklist
+- [ ] Set `DEBUG=False`
+- [ ] Configure secure database (PostgreSQL)
+- [ ] Set up Redis for caching
+- [ ] Configure email backend
+- [ ] Set up static file serving (S3 or CDN)
+- [ ] Configure logging and monitoring
+- [ ] Set up SSL certificates
+- [ ] Configure backup strategy
+
+### Docker Deployment
+```bash
+# Build and deploy
+docker-compose -f docker-compose.prod.yml up -d
+
+# Database migrations
+docker-compose exec web python manage.py migrate
+
+# Collect static files
+docker-compose exec web python manage.py collectstatic --noinput
+```
+
+## 📈 Performance Optimization
+
+### Database
+- Optimized queries with select_related and prefetch_related
+- Database indexes on frequently searched fields
+- Connection pooling and query optimization
+
+### Caching
+- Redis for session storage and view caching
+- Template fragment caching for expensive operations
+- Static file compression and CDN integration
+
+### Frontend
+- Minified CSS and JavaScript
+- Image optimization and lazy loading
+- Progressive Web App features
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+python manage.py test
+
+# Run specific app tests
+python manage.py test apps.plants
+
+# Run with coverage
+coverage run --source='.' manage.py test
+coverage report
+```
+
+## 📝 API Documentation
+
+### Plant Identification API
+```python
+POST /api/scanner/identify/
+Content-Type: multipart/form-data
+
+{
+    "image": <image_file>,
+    "confidence_threshold": 0.5
+}
+```
+
+### Plant Search API
+```python
+GET /api/plants/?search=basil&care_level=beginner&sunlight=medium
+```
 
 ## 🤝 Contributing
 
-This is a POC project, but contributions are welcome! Areas for improvement:
-- Additional plant species
-- Enhanced plant identification accuracy
-- Improved mobile experience
-- Additional care guide content
-- Performance optimizations
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Run the test suite
+6. Submit a pull request
+
+### Code Style
+- Follow PEP 8 for Python code
+- Use Black for code formatting
+- Add docstrings for all functions and classes
+- Write comprehensive tests
 
 ## 📄 License
 
@@ -164,11 +283,18 @@ This project is created for educational and demonstration purposes.
 
 ## 🙏 Acknowledgments
 
-- **Plant Images**: Unsplash for high-quality plant photography
-- **Plant Data**: Compiled from various gardening resources
-- **Streamlit**: For the excellent web app framework
-- **Plant Identification APIs**: Plant.id and Pl@ntNet for inspiration
+- **Plant.id API**: Plant identification service
+- **Unsplash**: High-quality plant photography
+- **Django Community**: Excellent framework and documentation
+- **Bootstrap**: Responsive UI framework
+
+## 📞 Support
+
+For support and questions:
+- Check the documentation
+- Review existing issues
+- Create a new issue with detailed information
 
 ---
 
-**Happy Gardening! 🌱**
+**Happy Gardening with ZFarming! 🌱**
