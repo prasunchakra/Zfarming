@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}About - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="text-success mb-4">🌱 About ZFarming</h1>
+            
+            <p class="lead">
+                ZFarming is designed to make urban gardening accessible and enjoyable for everyone. 
+                Whether you're a complete beginner or have some gardening experience, our tools will help you grow with confidence.
+            </p>
+            
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <h3>🎯 Our Mission</h3>
+                    <p>To help urban residents start their own small-scale gardens and develop their green thumbs through technology and guidance.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3>🌟 Our Features</h3>
+                    <ul>
+                        <li>Plant identification using AI</li>
+                        <li>Personalized plant recommendations</li>
+                        <li>Comprehensive care guides</li>
+                        <li>User-friendly interface</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-5">
+                <a href="{% url 'core:home' %}" class="btn btn-success">
+                    <i class="fas fa-home me-2"></i>Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

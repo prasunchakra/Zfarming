@@ -17,7 +17,7 @@ class PlantScannerView(TemplateView):
     template_name = 'scanner/scan.html'
 
 
-class PlantIdentificationView(LoginRequiredMixin, CreateView):
+class PlantIdentificationView(CreateView):
     """
     Handle plant identification from uploaded images.
     """
@@ -27,7 +27,8 @@ class PlantIdentificationView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('scanner:scan')
     
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        # Demo mode - no user required
+        form.instance.user = None
         
         # Get the uploaded image
         image_file = form.cleaned_data['image']
@@ -59,7 +60,7 @@ class PlantIdentificationView(LoginRequiredMixin, CreateView):
         return response
 
 
-class IdentificationResultView(LoginRequiredMixin, DetailView):
+class IdentificationResultView(DetailView):
     """
     Display plant identification results.
     """
@@ -68,4 +69,4 @@ class IdentificationResultView(LoginRequiredMixin, DetailView):
     context_object_name = 'identification'
     
     def get_queryset(self):
-        return PlantIdentificationHistory.objects.filter(user=self.request.user)
+        return PlantIdentificationHistory.objects.all()

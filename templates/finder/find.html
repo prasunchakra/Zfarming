@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪴 Plant Finder - ZFarming</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="/">
+                <i class="fas fa-seedling me-2"></i>ZFarming
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/plants/">Plants</a>
+                <a class="nav-link" href="/admin/">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-success">🪴 Find My Perfect Plant</h1>
+            <p class="lead">Discover the ideal plants for your space and lifestyle! Answer a few questions and we'll recommend the perfect plants for you.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="card-title mb-0">🌟 Tell us about your space and lifestyle</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="/finder/results/">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">☀️ Sunlight</label>
+                                        <p class="text-muted small">How much sunlight does your space get?</p>
+                                        <select class="form-select" name="sunlight" required>
+                                            <option value="">Choose sunlight level...</option>
+                                            <option value="Low Light (No direct sun)">Low Light (No direct sun)</option>
+                                            <option value="Medium Light (A few hours)">Medium Light (A few hours)</option>
+                                            <option value="Bright Light (6+ hours)">Bright Light (6+ hours)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">🏠 Space</label>
+                                        <p class="text-muted small">What size container are you planning to use?</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="space" value="Small Pot (Windowsill)" id="space1" required>
+                                            <label class="form-check-label" for="space1">Small Pot (Windowsill)</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="space" value="Hanging Basket" id="space2">
+                                            <label class="form-check-label" for="space2">Hanging Basket</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="space" value="Medium Container" id="space3">
+                                            <label class="form-check-label" for="space3">Medium Container</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="space" value="Large Container (Balcony)" id="space4">
+                                            <label class="form-check-label" for="space4">Large Container (Balcony)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">🌱 Care Level</label>
+                                        <p class="text-muted small">How much time can you dedicate to plant care?</p>
+                                        <select class="form-select" name="care_level" required>
+                                            <option value="">Choose care level...</option>
+                                            <option value="Beginner (I forget to water)">Beginner (I forget to water)</option>
+                                            <option value="Intermediate (I can follow a schedule)">Intermediate (I can follow a schedule)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">🎯 Plant Type</label>
+                                        <p class="text-muted small">What interests you most? (Optional)</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="plant_type" value="Herbs" id="type1">
+                                            <label class="form-check-label" for="type1">Herbs</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="plant_type" value="Flowers" id="type2">
+                                            <label class="form-check-label" for="type2">Flowers</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="plant_type" value="Vegetables" id="type3">
+                                            <label class="form-check-label" for="type3">Vegetables</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="plant_type" value="Succulents" id="type4">
+                                            <label class="form-check-label" for="type4">Succulents</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-search me-2"></i>Find My Perfect Plants!
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Info Section -->
+                <div class="mt-5">
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-lightbulb me-2"></i>Pro Tips for Your Plant Journey</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <strong>🌱 Start Small</strong><br>
+                                <small>Begin with 1-2 plants to build confidence before expanding your collection.</small>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>📅 Set Reminders</strong><br>
+                                <small>Use your phone to set watering reminders until caring becomes second nature.</small>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>📚 Learn as You Grow</strong><br>
+                                <small>Each plant teaches you something new about gardening and plant care.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

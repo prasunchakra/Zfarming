@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Plant Care Hub - ZFarming</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="/">
+                <i class="fas fa-seedling me-2"></i>ZFarming
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/plants/">Plants</a>
+                <a class="nav-link" href="/admin/">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-success">📖 Plant Care Hub</h1>
+            <p class="lead">Your comprehensive guide to plant care! Find detailed instructions for all your plants.</p>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="search" placeholder="🔍 Search for a plant..." value="{{ request.GET.search }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select" name="care_level">
+                                        <option value="">All Care Levels</option>
+                                        <option value="Beginner" {% if request.GET.care_level == 'Beginner' %}selected{% endif %}>Beginner</option>
+                                        <option value="Intermediate" {% if request.GET.care_level == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-search me-2"></i>Search Plants
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Plants Section -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-4">🌱 Popular Plant Care Guides</h3>
+            </div>
+        </div>
+
+        <!-- Sample Plant Cards -->
+        <div class="row g-4">
+            <!-- Mint -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0c29c8a0c8a?w=400&h=250&fit=crop" class="card-img-top" alt="Mint">
+                    <div class="card-body">
+                        <h5 class="card-title">🌿 Mint</h5>
+                        <p class="card-text text-muted small">Mentha spicata</p>
+                        <p class="card-text">Fresh and fragrant - perfect for beginners!</p>
+                        
+                        <div class="row text-center small mb-3">
+                            <div class="col-4">
+                                <i class="fas fa-sun text-warning"></i><br>
+                                <small>Medium Light</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-tint text-info"></i><br>
+                                <small>Every 2-3 days</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-home text-secondary"></i><br>
+                                <small>Small Pot</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <button class="btn btn-outline-success w-100" onclick="showCareGuide('mint')">
+                            <i class="fas fa-info-circle me-2"></i>View Care Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snake Plant -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1593482892262-124d95ad4a0a?w=400&h=250&fit=crop" class="card-img-top" alt="Snake Plant">
+                    <div class="card-body">
+                        <h5 class="card-title">🐍 Snake Plant</h5>
+                        <p class="card-text text-muted small">Sansevieria trifasciata</p>
+                        <p class="card-text">Hard to kill and great for your air!</p>
+                        
+                        <div class="row text-center small mb-3">
+                            <div class="col-4">
+                                <i class="fas fa-sun text-warning"></i><br>
+                                <small>Low Light</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-tint text-info"></i><br>
+                                <small>Every 2-3 weeks</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-home text-secondary"></i><br>
+                                <small>Large Container</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <button class="btn btn-outline-success w-100" onclick="showCareGuide('snake-plant')">
+                            <i class="fas fa-info-circle me-2"></i>View Care Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basil -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1615485925334-744b5b3b6b0c?w=400&h=250&fit=crop" class="card-img-top" alt="Basil">
+                    <div class="card-body">
+                        <h5 class="card-title">🍃 Basil</h5>
+                        <p class="card-text text-muted small">Ocimum basilicum</p>
+                        <p class="card-text">Kitchen superstar that loves the sun!</p>
+                        
+                        <div class="row text-center small mb-3">
+                            <div class="col-4">
+                                <i class="fas fa-sun text-warning"></i><br>
+                                <small>Bright Light</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-tint text-info"></i><br>
+                                <small>Every 1-2 days</small>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-home text-secondary"></i><br>
+                                <small>Small Pot</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <button class="btn btn-outline-success w-100" onclick="showCareGuide('basil')">
+                            <i class="fas fa-info-circle me-2"></i>View Care Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Data State -->
+        <div class="text-center mt-5">
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle me-2"></i>More Plants Coming Soon!</h5>
+                <p class="mb-0">This is a demo version. Run <code>python data_migration.py</code> to load the complete plant database with 15+ plants and detailed care guides.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Care Guide Modal -->
+    <div class="modal fade" id="careGuideModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">🌱 Plant Care Guide</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="careGuideContent">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showCareGuide(plantId) {
+            const modal = new bootstrap.Modal(document.getElementById('careGuideModal'));
+            const content = document.getElementById('careGuideContent');
+            
+            // Sample care guide content
+            const guides = {
+                'mint': `
+                    <h4>🌿 Mint Care Guide</h4>
+                    <p><strong>Watering:</strong> Keep soil consistently moist but not waterlogged. Water every 2-3 days.</p>
+                    <p><strong>Light:</strong> 4-6 hours of indirect light. Place near a bright window but avoid direct afternoon sun.</p>
+                    <p><strong>Soil:</strong> Use well-draining soil and repot when roots show at bottom.</p>
+                    <p><strong>Common Issues:</strong> Overwatering can cause root rot; underwatering causes wilting.</p>
+                `,
+                'snake-plant': `
+                    <h4>🐍 Snake Plant Care Guide</h4>
+                    <p><strong>Watering:</strong> Water only when soil is completely dry, every 2-3 weeks.</p>
+                    <p><strong>Light:</strong> Tolerates low light but prefers bright indirect light.</p>
+                    <p><strong>Soil:</strong> Use well-draining soil; can go months without water.</p>
+                    <p><strong>Common Issues:</strong> Overwatering is the main issue; very drought tolerant.</p>
+                `,
+                'basil': `
+                    <h4>🍃 Basil Care Guide</h4>
+                    <p><strong>Watering:</strong> Water when top inch of soil is dry, every 1-2 days.</p>
+                    <p><strong>Light:</strong> Needs 6+ hours of direct sunlight for best flavor.</p>
+                    <p><strong>Soil:</strong> Use rich potting soil and pinch flowers to encourage leaf growth.</p>
+                    <p><strong>Common Issues:</strong> Can bolt in hot weather; watch for aphids.</p>
+                `
+            };
+            
+            content.innerHTML = guides[plantId] || '<p>Care guide coming soon!</p>';
+            modal.show();
+        }
+    </script>
+</body>
+</html>

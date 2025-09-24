@@ -10,14 +10,7 @@ class HomeView(TemplateView):
     """
     Home page view - equivalent to the main Streamlit app.py
     """
-    template_name = 'core/home.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['featured_plants'] = Plant.objects.filter(
-            care_level__icontains='Beginner'
-        )[:6]
-        return context
+    template_name = 'core/home_simple.html'
 
 
 class AboutView(TemplateView):

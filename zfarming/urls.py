@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
+class TestTemplateView(TemplateView):
+    template_name = 'test.html'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,10 +30,7 @@ urlpatterns = [
     path('finder/', include('apps.finder.urls')),
     path('care/', include('apps.care.urls')),
     path('accounts/', include('apps.accounts.urls')),
-    path('api/', include('apps.api.urls')),
-    
-    # Favicon
-    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
+    path('status/', TestTemplateView.as_view(), name='status'),  # Keep for testing
 ]
 
 # Serve media files during development

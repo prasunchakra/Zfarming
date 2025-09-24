@@ -49,28 +49,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
     
-    # Third party apps
-    'crispy_forms',
-    'crispy_bootstrap5',
+    # Third party apps (for templates)
     'compressor',
-    'rest_framework',
-    'corsheaders',
     
     # Local apps
     'apps.core',
     'apps.plants',
-    'apps.scanner',
-    'apps.finder',
-    'apps.care',
     'apps.accounts',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -228,6 +218,29 @@ if not DEBUG:
     
     # Static files compression for production
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Force all security settings to be development-friendly
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+SECURE_BROWSER_XSS_FILTER = False
+SECURE_CONTENT_TYPE_NOSNIFF = False
+
+# Additional settings to prevent HTTPS issues in development
+USE_TZ = True
+USE_I18N = True
+
+# Development settings - ensure no HTTPS redirect in development
+if DEBUG:
+    # Clear any potential HTTPS forcing settings
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_REFERRER_POLICY = None
+    
+# Re-enable automatic slash append for Django conventions
+APPEND_SLASH = True
 
 # Logging
 LOGGING = {
