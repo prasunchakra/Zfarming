@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialize environ
 env = environ.Env(
-    DEBUG=(bool, False),
+    DEBUG=(bool, True),  # Default to True for development
     SECRET_KEY=(str, ''),
     ALLOWED_HOSTS=(list, []),
     DATABASE_URL=(str, f'sqlite:///{BASE_DIR}/db.sqlite3'),
@@ -204,8 +204,21 @@ CACHES = {
     }
 }
 
-# Security settings for production
-if not DEBUG:
+# Security settings - properly configured for development vs production
+if DEBUG:
+    # Development settings - no HTTPS enforcement
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_BROWSER_XSS_FILTER = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_REFERRER_POLICY = None
+else:
+    # Production security settings
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
@@ -218,26 +231,6 @@ if not DEBUG:
     
     # Static files compression for production
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Force all security settings to be development-friendly
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
-SECURE_HSTS_SECONDS = 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-SECURE_HSTS_PRELOAD = False
-SECURE_BROWSER_XSS_FILTER = False
-SECURE_CONTENT_TYPE_NOSNIFF = False
-
-# Additional settings to prevent HTTPS issues in development
-USE_TZ = True
-USE_I18N = True
-
-# Development settings - ensure no HTTPS redirect in development
-if DEBUG:
-    # Clear any potential HTTPS forcing settings
-    SECURE_PROXY_SSL_HEADER = None
-    SECURE_REFERRER_POLICY = None
     
 # Re-enable automatic slash append for Django conventions
 APPEND_SLASH = True
@@ -260,7 +253,8 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'django.log',
+            # Corrected absolute path
+            'filename': '/home/prasunchakra/ZFarming/logs/django.log',
             'formatter': 'verbose',
         },
         'console': {
